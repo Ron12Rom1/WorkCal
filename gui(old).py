@@ -65,7 +65,6 @@ canvas.create_rectangle(
     800.0,
     100.0,
     fill="#17153B",
-
     outline="",
 )
 
@@ -78,7 +77,6 @@ canvas.create_text(
     font=("Ubuntu Bold", 48 * -1),
 )
 
-# Target text element (can be modified to change other text elements)
 canvas.create_text(
     400.0,
     150.0,
