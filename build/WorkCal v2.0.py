@@ -14,9 +14,6 @@ from datetime import timedelta
 global log
 log = []
 
-OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Users\ronro\Documents\Coding\VisualStudio\Python\Prigects\WorkCalender\build\assets\frame0")
-
 date = _dt.today()
 
 def change_mid_text(new_text, is_error=False):
@@ -126,9 +123,6 @@ def update_text_on_button_click():
     """Updates the text of the target text element to 'No' when clicked."""
     target_text = canvas.find_withtag("target_text")  # Find the text element with the tag
     canvas.itemconfig(target_text, text="No") 
-
-def relative_to_assets(path: str) -> Path:
-    return ASSETS_PATH / Path(path)
 
 
 window = Tk()
@@ -349,3 +343,4 @@ window.resizable(False, False)
 window.mainloop()
 
 
+# with open(ASSETS_PATH/a)
