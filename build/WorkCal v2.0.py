@@ -4,15 +4,14 @@
 
 
 from pathlib import Path
-
-# from tkinter import *
-# Explicit imports to satisfy Flake8
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 from datetime import datetime as _dt
 from datetime import timedelta
+import assets.Googels.Googel_api as Googel_api
 
 global log
 log = []
+
 
 date = _dt.today()
 
@@ -58,14 +57,13 @@ def procces_time_format(time_start, time_end):
     to_return = [None, None]
     for i, time in enumerate(times):
         if ":" in time:
-            hour = time[:-3]
-            min = time[-2:]
+            hour, min = time.split(":")
             if int(hour) >= 0 and int(hour) <= 25:
                 if int(min) >= 0 and int(min) < 60:
                     to_return[i] = time
                 else:
                     """whay to do if minutes enters are invalid"""
-                    change_mid_text(f"{'Start time Eroor: ' if i == 1 else 'End time eroor: '}Invalid minutes entered\n    Please enter a number between 00 and 59", True)
+                    change_mid_text(f"{'Start time Eroor: ' if i == 1 else 'End time eroor: '}Invalid minutes entered\n Please enter a number between 00 and 59", True)
                     to_return[i] = None
             else:
                 """whay to do if hours enters are invalid"""
@@ -124,6 +122,12 @@ def update_text_on_button_click():
     target_text = canvas.find_withtag("target_text")  # Find the text element with the tag
     canvas.itemconfig(target_text, text="No") 
 
+def add_to_google():
+    """Adds the hours of the target text element to Google calendar."""
+    # target_text = canvas.find_withtag("target_text")  # Find the text element with the tag
+    # text = canvas.itemcget(target_text, "text")
+    # print(f"Adding {text} to Google Calendar...")
+    # Add your Google Calendar API code here
 
 window = Tk()
 
@@ -195,7 +199,7 @@ canvas.create_text(
 
 #Purpule rec, enter 1
 image_image_1 = PhotoImage(
-    file="assets/image_1.png")
+    file="assets/images/image_1.png")
 image_1 = canvas.create_image(
     444.0,
     226.0,
@@ -203,7 +207,7 @@ image_1 = canvas.create_image(
 )
 
 image_image_2 = PhotoImage(
-    file="assets/image_2.png")
+    file="assets/images/image_2.png")
 image_2 = canvas.create_image(
     444.0,
     226.0,
@@ -227,7 +231,7 @@ entry_1.place(
 
 #purple rec, enter 2
 image_image_3 = PhotoImage(
-    file="assets/image_3.png")
+    file="assets/images/image_3.png")
 image_3 = canvas.create_image(
     444.0,
     269.0,
@@ -235,7 +239,7 @@ image_3 = canvas.create_image(
 )
 
 image_image_4 = PhotoImage(
-    file="assets/image_4.png")
+    file="assets/images/image_4.png")
 image_4 = canvas.create_image(
     444.0,
     269.0,
@@ -243,7 +247,7 @@ image_4 = canvas.create_image(
 )
 
 entry_image_2 = PhotoImage(
-    file="assets/entry_2.png")
+    file="assets/images/entry_2.png")
 entry_bg_2 = canvas.create_image(
     444.0,
     268.5,
@@ -276,7 +280,7 @@ canvas.create_text(
 )
 
 button_image_1 = PhotoImage(
-    file="assets/button_1.png")
+    file="assets/images/button_1.png")
 button_1 = Button(
     image=button_image_1,
     borderwidth=0,
@@ -292,7 +296,7 @@ button_1.place(
 )
 
 button_image_2 = PhotoImage(
-    file="assets/button_2.png")
+    file="assets/images/button_2.png")
 button_2 = Button(
     image=button_image_2,
     borderwidth=0,
@@ -308,7 +312,7 @@ button_2.place(
 )
 
 button_image_3 = PhotoImage(
-    file="assets/button_3.png")
+    file="assets/images/button_3.png")
 button_3 = Button(
     image=button_image_3,
     borderwidth=0,
@@ -324,7 +328,7 @@ button_3.place(
 )
 
 button_image_4 = PhotoImage(
-    file="assets/button_4.png")
+    file="assets/images/button_4.png")
 button_4 = Button(
     image=button_image_4,
     borderwidth=0,
@@ -343,4 +347,14 @@ window.resizable(False, False)
 window.mainloop()
 
 
-# with open(ASSETS_PATH/a)
+temp_logs = open("assets/Logs/temp.txt", "w")
+temp_logs.write(str(log) + "\n\n")
+for i, entry in enumerate(log):
+    temp_logs.write(f"Entry {i}:\n")
+    temp_logs.write(f'Date: {entry["day"]}\nStart time: {entry["start_time"]}\nEnd time: {entry["end_time"]}')
+    temp_logs.write("\n================================\n")
+print("Successfully added to info temp database")
+
+add_to_google()
+
+temp_logs.close()
