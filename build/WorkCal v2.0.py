@@ -11,7 +11,8 @@ from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 from datetime import datetime as _dt
 from datetime import timedelta
 
-
+global log
+log = []
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Users\ronro\Documents\Coding\VisualStudio\Python\Prigects\WorkCalender\build\assets\frame0")
@@ -35,7 +36,8 @@ def on_press_prev():
     """move a day back"""
     global date
     date -= timedelta(days=1)
-    # target_text =  (11,)#canvas.find_withtag("target_text")  # Find the text element with the tag
+    target_text = canvas.find_withtag("target_text")  # Find the text element with the tag
+    canvas.itemconfig(target_text, text=date.strftime("%a %d/%m")) 
     canvas.itemconfig((11,), text=date.strftime("%a %d/%m")) 
     change_mid_text("Moved to previous day")
 
@@ -90,7 +92,7 @@ def procces_time_format(time_start, time_end):
         elif len(time) == 0:
             return (False, None)
         elif len(time) != 3 and len(time) != 4: 
-            change_mid_text(f"{'Start time Eroor: ' if i == 1 else 'End time eroor: '}Invalid time entered.\nPlease enter between 3 and 4 numbers in total", True)
+            change_mid_text(f"        {'Start time Eroor: ' if i == 1 else '  End time eroor: '}Invalid time entered.\nPlease enter between 3 and 4 numbers in total", True)
             to_return[i] = None
         else:
             change_mid_text(f"{'Start time Eroor: ' if i == 1 else 'End time eroor: '}Invalid time entered. Please enter only numbers and ':' in this format: HH:MM", True)
@@ -103,13 +105,16 @@ def on_press_submit():
     time_end = entry_2.get()
     check = check_input(time_start, time_end)
     if check:
-        time_start_toEnter, time_end_toEnter = procces_time_format(time_start, time_end)
+        time_end_toEnter, time_start_toEnter = procces_time_format(time_start, time_end)
         if time_start_toEnter != None and time_end_toEnter != None:
             """ if evrything is OK """
             print(f"Time start: {time_start_toEnter}, Time end: {time_end_toEnter}")
             entry_1.delete(0, 999)
             entry_2.delete(0, 999)
-            change_mid_text(f"Added a new working day from: {time_start_toEnter} to: {time_end_toEnter}")
+            log.append({"day": date.strftime('%d-%m-%y'), "start_time": time_start_toEnter, "end_time": time_end_toEnter})
+            on_press_next()
+            change_mid_text(f"Added a new working day from: {time_start_toEnter} to: {time_end_toEnter}.\n                          Moved to next day.")
+            print(log)
         else: 
             """ if there is an error """
             print("There is an error")
@@ -196,7 +201,7 @@ canvas.create_text(
 
 #Purpule rec, enter 1
 image_image_1 = PhotoImage(
-    file="build/assets/image_1.png")
+    file="assets/image_1.png")
 image_1 = canvas.create_image(
     444.0,
     226.0,
@@ -204,7 +209,7 @@ image_1 = canvas.create_image(
 )
 
 image_image_2 = PhotoImage(
-    file="build/assets/image_2.png")
+    file="assets/image_2.png")
 image_2 = canvas.create_image(
     444.0,
     226.0,
@@ -228,7 +233,7 @@ entry_1.place(
 
 #purple rec, enter 2
 image_image_3 = PhotoImage(
-    file="build/assets/image_3.png")
+    file="assets/image_3.png")
 image_3 = canvas.create_image(
     444.0,
     269.0,
@@ -236,7 +241,7 @@ image_3 = canvas.create_image(
 )
 
 image_image_4 = PhotoImage(
-    file="build/assets/image_4.png")
+    file="assets/image_4.png")
 image_4 = canvas.create_image(
     444.0,
     269.0,
@@ -244,7 +249,7 @@ image_4 = canvas.create_image(
 )
 
 entry_image_2 = PhotoImage(
-    file="build/assets/entry_2.png")
+    file="assets/entry_2.png")
 entry_bg_2 = canvas.create_image(
     444.0,
     268.5,
@@ -277,7 +282,7 @@ canvas.create_text(
 )
 
 button_image_1 = PhotoImage(
-    file="build/assets/button_1.png")
+    file="assets/button_1.png")
 button_1 = Button(
     image=button_image_1,
     borderwidth=0,
@@ -293,7 +298,7 @@ button_1.place(
 )
 
 button_image_2 = PhotoImage(
-    file="build/assets/button_2.png")
+    file="assets/button_2.png")
 button_2 = Button(
     image=button_image_2,
     borderwidth=0,
@@ -309,7 +314,7 @@ button_2.place(
 )
 
 button_image_3 = PhotoImage(
-    file="build/assets/button_3.png")
+    file="assets/button_3.png")
 button_3 = Button(
     image=button_image_3,
     borderwidth=0,
@@ -325,7 +330,7 @@ button_3.place(
 )
 
 button_image_4 = PhotoImage(
-    file="build/assets/button_4.png")
+    file="assets/button_4.png")
 button_4 = Button(
     image=button_image_4,
     borderwidth=0,
@@ -342,3 +347,5 @@ button_4.place(
 
 window.resizable(False, False)
 window.mainloop()
+
+
