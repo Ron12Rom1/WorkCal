@@ -69,11 +69,31 @@ def create_event(service, summary, start_time, end_time):
             'dateTime': end_time,
             'timeZone': 'UTC',
         },
+
+        # 'attendees': [
+        #     {'email': 'example@example.com'},
+        # ],
+        'location': 'Yehuda ha-Nakhtom St 7, Beersheba',
+        'description': 'This event was created by WorkCal.',
+        'reminders': {
+            'useDefault': False,
+            'overrides': [
+                {'method': 'popup', 'minutes': 10},
+                {'method': 'popup', 'minutes': 30},
+                {'method': 'popup', 'minutes': 60},
+                {'method': 'popup', 'minutes': 120},
+                
+            #     ## also can:
+            #     #{'method': 'email', 'minutes': 24 * 60},
+            #     #{'method': 'sms', 'minutes': 120},
+            #     #{'method': 'sms', 'minutes': 30},
+            ],
+        }
     }
     try:
         event_result = service.events().insert(
             calendarId='primary',
-            body=event
+            body=event,
         ).execute()
         print(f"Event created: {event_result.get('htmlLink')}")
     except HttpError as error:
@@ -85,15 +105,17 @@ def main():
     service = build('calendar', 'v3', credentials=creds)
     
     # List upcoming events
-    print("Listing upcoming events:")
-    list_upcoming_events(service)
+    # print("Listing upcoming events:")
+    # list_upcoming_events(service)
 
     # Create a new event
-    print("\nCreating a new event:")
-    summary = "Sample Event"
-    start_time = '2024-08-16T10:00:00Z'  # Change to your desired start time
-    end_time = '2024-08-16T11:00:00Z'    # Change to your desired end time
+    print("\nCreating new events...")
+    summary = "Bezek"
+    start_time = '2024-08-19T20:00:00Z'  # Change to your desired start time
+    end_time = '2024-08-20T1:00:00Z' 
     create_event(service, summary, start_time, end_time)
+
+
 
 if __name__ == '__main__':
     main()
