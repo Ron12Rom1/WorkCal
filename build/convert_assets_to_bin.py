@@ -24,9 +24,9 @@ list_of_assets = [
 
 import base64
 
-with open(list_of_assets[13], "rb") as image_file:
-    encoded_string = base64.b64encode(image_file.read())
-    # print(encoded_string.decode("utf-8"))
+# with open(list_of_assets[13], "rb") as image_file:
+#     encoded_string = base64.b64encode(image_file.read())
+#     # print(encoded_string.decode("utf-8"))
 
 
 file_data = [
@@ -47,8 +47,14 @@ file_data = [
 ("assets/images/image_4.png", "iVBORw0KGgoAAAANSUhEUgAAAIIAAAAZCAYAAAD9ovZ9AAABA0lEQVR4nO3asUlEQRSF4f/MBqLVCIKtaLAdaA2uGgsGYgcKaycmBouBlai8wHcMZrYE94J7vgoOzA+TXNlukmbbS+ASOAYOiP/sG3gDHiWtbUsAtq+Am9JpUWUl6Va2z4A1MAMGFrW7Ykd+AAENWMr2K3BKj6BVLoudm+kxbGT7EzgqHhS1Jtl29Yqol68ggIQQQ0IIICHEkBACSAgxJIQAEkIMCSGAhBBDQgggIcSQEAJICDE0YKoeEeW+GvBBv06ai8fE7m3PE98bcEc/V4J+xxb7YfvWAu6bpGdgRf8mcri6Pxb0N7+W9CLbkmTb58AFcAIclk6MvzYBG+BB0pPt9gvMf0VFSBil2QAAAABJRU5ErkJggg=="),
 
 ("assets/Logs/log.txt", ""),
-("assets/Logs/temp.txt", "W10NCg0K"),
+("assets/Logs/temp.txt", "W10NCg0"),
 ]
+
+to_add = f"""
+import os
+import base64
+
+file_data = {file_data}
 
 os.makedirs("out/assets/images/")
 os.makedirs("out/assets/Googel/")
@@ -59,3 +65,29 @@ for asset in file_data:
     print(".png" in asset[0])
     with open("out/" + str(asset[0]).removesuffix(".png") + ".png" if ".png" in asset[0] else "out/" + str(asset[0]).removesuffix(".py") + ".py" if ".py" in asset[0] else "out/" + str(asset[0]).removesuffix(".json") + ".json" if ".json" in asset[0] else "out/" + str(asset[0]).removesuffix(".txt") + ".txt", "wb") as out_file:
         out_file.write(base64.b64decode(asset[1]))
+
+        
+###END###
+"""
+
+def Locate_end():
+    with open("WorkCal v2.0.py",'r') as f:
+        lines = f.readlines()
+        # print(lines[19:])
+        for i, line in enumerate(lines):
+            if '###END###' in line:
+                return i
+    return 0
+
+with open("WorkCal v2.0.py",'r') as f:
+    with open('newfile.txt','w') as f2: 
+        f2.write(to_add)
+        write = f.readlines()
+        write = write[Locate_end():]
+        # print(write)
+        for i in write:
+            f2.write(i)
+        # print(i for i in write)
+        # f2.write()
+os.remove("WorkCal v2.0.py")
+os.rename('newfile.txt',"WorkCal v2.0.py")

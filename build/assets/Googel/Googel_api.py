@@ -13,10 +13,10 @@ def if_creds_not_valid(creds):
     if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
     else:
-        flow = InstalledAppFlow.from_client_secrets_file('assets\Googel\credentials.json', SCOPES)
+        flow = InstalledAppFlow.from_client_secrets_file('assets\Googels\credentials.json', SCOPES)
         creds = flow.run_local_server(port=0)
     # Save the credentials for the next run
-    with open('assets/Googel/token.json', 'w') as token:
+    with open('assets/Googels/token.json', 'w') as token:
         token.write(creds.to_json())
 
     return (flow, creds)
@@ -25,8 +25,8 @@ def get_credentials():
     """Get valid user credentials from storage or run the OAuth flow to get new credentials."""
     creds = None
     # Token file stores user access and refresh tokens
-    if os.path.exists('assets/Googel/token.json'):
-        creds = Credentials.from_authorized_user_file('assets\Googel/token.json', SCOPES)
+    if os.path.exists('assets/Googels/token.json'):
+        creds = Credentials.from_authorized_user_file('assets/Googels/token.json', SCOPES)
     # If no valid credentials, run the OAuth flow
     if not creds or not creds.valid:
         flow, creds = if_creds_not_valid(creds)
