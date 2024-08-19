@@ -7,7 +7,7 @@ from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 from datetime import datetime as _dt
 from datetime import timedelta
-import assets.Googels.Googel_api as Googel_api
+# import assets.Googel.Googel_api as Googel_api
 
 global log
 log = []
