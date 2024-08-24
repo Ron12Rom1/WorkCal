@@ -8,10 +8,12 @@ os.makedirs("assets/images/")
 os.makedirs("assets/Googel/")
 os.makedirs("assets/Logs/")
 
-for asset in file_data:
-    with open(str(asset[0]).removesuffix(".png") + ".png" if ".png" in asset[0] else str(asset[0]).removesuffix(".py") + ".py" if ".py" in asset[0] else str(asset[0]).removesuffix(".json") + ".json" if ".json" in asset[0] else str(asset[0]).removesuffix(".txt") + ".txt", "wb") as out_file:
-        out_file.write(base64.b64decode(asset[1]))
-
+try:
+    for asset in file_data:
+        with open(str(asset[0]).removesuffix(".png") + ".png" if ".png" in asset[0] else str(asset[0]).removesuffix(".py") + ".py" if ".py" in asset[0] else str(asset[0]).removesuffix(".json") + ".json" if ".json" in asset[0] else str(asset[0]).removesuffix(".txt") + ".txt", "wb") as out_file:
+            out_file.write(base64.b64decode(asset[1]))
+except:
+    print("Assets folder allready exists. Skipping adding assets folder.\n")
         
 ###END###
 ###END###
