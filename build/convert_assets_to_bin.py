@@ -71,7 +71,7 @@ for asset in file_data:
 """
 
 def Locate_end():
-    with open("WorkCal v2.0.py",'r') as f:
+    with open("WorkCal v2.5.py",'r') as f:
         lines = f.readlines()
         # print(lines[19:])
         for i, line in enumerate(lines):
@@ -79,7 +79,7 @@ def Locate_end():
                 return i
     return 0
 
-with open("WorkCal v2.0.py",'r') as f:
+with open("WorkCal v2.5.py",'r') as f:
     with open('newfile.txt','w') as f2: 
         f2.write(to_add)
         write = f.readlines()
@@ -89,5 +89,5 @@ with open("WorkCal v2.0.py",'r') as f:
             f2.write(i)
         # print(i for i in write)
         # f2.write()
-os.remove("WorkCal v2.0.py")
-os.rename('newfile.txt',"WorkCal v2.0.py")
+os.remove("WorkCal v2.5.py")
+os.rename('newfile.txt',"WorkCal v2.5.py")
